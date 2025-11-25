@@ -1,4 +1,8 @@
-# CTF-Toolkit
+# CTF & Pentesting Toolkit 2025
+
+Comprehensive methodology reference for CTF challenges and penetration testing - covering reconnaissance to root access.
+
+## Repository Structure
 
 ctf-pentesting-toolkit-2025/
 ├── docs/
@@ -32,10 +36,6 @@ ctf-pentesting-toolkit-2025/
 │   │   ├── index.html
 │   │   ├── pass-the-hash.html
 │   │   └── pivoting.html
-│   ├── persistence/
-│   │   ├── index.html
-│   │   ├── backdoors.html
-│   │   └── scheduled-tasks.html
 │   ├── active-directory/
 │   │   ├── index.html
 │   │   ├── bloodhound.html
