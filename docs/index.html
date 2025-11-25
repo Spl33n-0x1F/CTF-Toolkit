@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF & Pentesting Toolkit 2025</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .header h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+        .header p { font-size: 1.2rem; opacity: 0.9; }
+        .container { 
+            max-width: 1400px; 
+            margin: 2rem auto; 
+            padding: 0 2rem;
+        }
+        .section-title {
+            color: white;
+            font-size: 2rem;
+            margin: 3rem 0 1.5rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .card h3 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .card ul {
+            margin-top: 1rem;
+            margin-left: 1.5rem;
+            color: #555;
+        }
+        .card li {
+            margin: 0.3rem 0;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            backdrop-filter: blur(10px);
+        }
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 CTF & Pentesting Toolkit 2025</h1>
+        <p>Comprehensive Methodology Reference | Recon to Root</p>
+        <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">
+            Updated November 2025 | Covers OSCP, HTB, and Real-World Scenarios
+        </p>
+    </div>
+
+    <div class="container">
+        <!-- Reconnaissance Section -->
+        <h2 class="section-title">🔍 Reconnaissance & Information Gathering</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='reconnaissance/nmap.html'">
+                <div class="card-icon">🌐</div>
+                <h3>Network Scanning (Nmap)</h3>
+                <p>Complete Nmap methodology from quick scans to advanced techniques</p>
+                <ul>
+                    <li>Port scanning strategies</li>
+                    <li>Service version detection</li>
+                    <li>NSE script usage</li>
+                    <li>Output parsing tips</li>
+                </ul>
+                <span class="badge">Essential</span>
+            </div>
+
+            <div class="card" onclick="location.href='reconnaissance/web-recon.html'">
+                <div class="card-icon">🌍</div>
+                <h3>Web Reconnaissance</h3>
+                <p>Directory brute-forcing, subdomain enumeration, and web technology fingerprinting</p>
+                <ul>
+                    <li>Gobuster / Feroxbuster</li>
+                    <li>Wappalyzer / WhatWeb</li>
+                    <li>Virtual host discovery</li>
+                    <li>API enumeration</li>
+                </ul>
+                <span class="badge">Web Focus</span>
+            </div>
+
+            <div class="card" onclick="location.href='reconnaissance/osint.html'">
+                <div class="card-icon">🕵️</div>
+                <h3>OSINT Techniques</h3>
+                <p>Open-source intelligence gathering for CTFs and external pentests</p>
+                <ul>
+                    <li>Google dorking</li>
+                    <li>Social media recon</li>
+                    <li>Domain/email harvesting</li>
+                    <li>Metadata extraction</li>
+                </ul>
+                <span class="badge">External</span>
+            </div>
+        </div>
+
+        <!-- Enumeration Section -->
+        <h2 class="section-title">📋 Service Enumeration</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='enumeration/smb.html'">
+                <div class="card-icon">🗂️</div>
+                <h3>SMB/SMB2 Enumeration</h3>
+                <p>Windows file sharing enumeration techniques</p>
+                <ul>
+                    <li>Null session attacks</li>
+                    <li>Share enumeration</li>
+                    <li>User enumeration</li>
+                    <li>smbclient / crackmapexec</li>
+                </ul>
+            </div>
+
+            <div class="card" onclick="location.href='enumeration/ldap.html'">
+                <div class="card-icon">📖</div>
+                <h3>LDAP/Active Directory</h3>
+                <p>Directory service enumeration for AD environments</p>
+                <ul>
+                    <li>Anonymous LDAP queries</li>
+                    <li>User/group enumeration</li>
+                    <li>Password policy discovery</li>
+                    <li>ldapsearch techniques</li>
+                </ul>
+            </div>
+
+            <div class="card" onclick="location.href='enumeration/dns.html'">
+                <div class="card-icon">🔤</div>
+                <h3>DNS Enumeration</h3>
+                <p>Domain Name System reconnaissance</p>
+                <ul>
+                    <li>Zone transfers (AXFR)</li>
+                    <li>Subdomain brute-forcing</li>
+                    <li>Reverse DNS lookups</li>
+                    <li>DNS cache snooping</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Exploitation Section -->
+        <h2 class="section-title">💥 Exploitation Techniques</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='exploitation/web-attacks.html'">
+                <div class="card-icon">🌐</div>
+                <h3>Web Application Attacks</h3>
+                <p>OWASP Top 10 and beyond</p>
+                <ul>
+                    <li>SQL Injection (SQLi)</li>
+                    <li>Cross-Site Scripting (XSS)</li>
+                    <li>Local/Remote File Inclusion</li>
+                    <li>Command Injection</li>
+                    <li>SSRF & XXE</li>
+                </ul>
+                <span class="badge">Critical</span>
+            </div>
+
+            <div class="card" onclick="location.href='exploitation/metasploit.html'">
+                <div class="card-icon">🚀</div>
+                <h3>Metasploit Framework</h3>
+                <p>Complete MSF methodology and workflow</p>
+                <ul>
+                    <li>Module selection</li>
+                    <li>Payload generation</li>
+                    <li>Meterpreter usage</li>
+                    <li>Post-exploitation modules</li>
+                </ul>
+            </div>
+
+            <div class="card" onclick="location.href='exploitation/manual-exploits.html'">
+                <div class="card-icon">⚙️</div>
+                <h3>Manual Exploitation</h3>
+                <p>Exploit modification and custom payloads</p>
+                <ul>
+                    <li>Exploit-DB usage</li>
+                    <li>Python exploit modification</li>
+                    <li>Buffer overflow basics</li>
+                    <li>Reverse shell stabilization</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Linux Privilege Escalation -->
+        <h2 class="section-title">🐧 Linux Privilege Escalation</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='linux-privesc/suid-binaries.html'">
+                <div class="card-icon">🔧</div>
+                <h3>SUID/SGID Exploitation</h3>
+                <p>Finding and exploiting misconfigured binaries</p>
+                <ul>
+                    <li>Finding SUID files</li>
+                    <li>GTFOBins reference</li>
+                    <li>Custom binary exploitation</li>
+                    <li>Capabilities abuse</li>
+                </ul>
+                <span class="badge">Common</span>
+            </div>
+
+            <div class="card" onclick="location.href='linux-privesc/sudo-abuse.html'">
+                <div class="card-icon">👑</div>
+                <h3>Sudo Misconfiguration</h3>
+                <p>Exploiting sudo permissions</p>
+                <ul>
+                    <li>sudo -l enumeration</li>
+                    <li>LD_PRELOAD exploitation</li>
+                    <li>Wildcard abuse</li>
+                    <li>Environment variable manipulation</li>
+                </ul>
+            </div>
+
+            <div class="card" onclick="location.href='linux-privesc/kernel-exploits.html'">
+                <div class="card-icon">💣</div>
+                <h3>Kernel Exploits</h3>
+                <p>OS-level privilege escalation</p>
+                <ul>
+                    <li>Kernel version identification</li>
+                    <li>Dirty Cow and variants</li>
+                    <li>CVE search methodology</li>
+                    <li>Exploit compilation tips</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Windows Privilege Escalation -->
+        <h2 class="section-title">🪟 Windows Privilege Escalation</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='windows-privesc/services.html'">
+                <div class="card-icon">⚙️</div>
+                <h3>Service Exploitation</h3>
+                <p>Windows service misconfigurations</p>
+                <ul>
+                    <li>Unquoted service paths</li>
+                    <li>Weak service permissions</li>
+                    <li>DLL hijacking</li>
+                    <li>Service registry manipulation</li>
+                </ul>
+                <span class="badge">Common</span>
+            </div>
+
+            <div class="card" onclick="location.href='windows-privesc/tokens.html'">
+                <div class="card-icon">🎫</div>
+                <h3>Token Manipulation</h3>
+                <p>Windows access token abuse</p>
+                <ul>
+                    <li>SeImpersonatePrivilege (Potato attacks)</li>
+                    <li>SeBackupPrivilege exploitation</li>
+                    <li>Token stealing techniques</li>
+                    <li>Incognito usage</li>
+                </ul>
+            </div>
+
+            <div class="card" onclick="location.href='windows-privesc/registry.html'">
+                <div class="card-icon">📝</div>
+                <h3>Registry & AutoRuns</h3>
+                <p>Windows registry exploitation</p>
+                <ul>
+                    <li>AlwaysInstallElevated</li>
+                    <li>Autoruns enumeration</li>
+                    <li>Registry key permissions</li>
+                    <li>Credential harvesting</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Lateral Movement -->
+        <h2 class="section-title">➡️ Lateral Movement & Pivoting</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='lateral-movement/pass-the-hash.html'">
+                <div class="card-icon">🔑</div>
+                <h3>Pass-the-Hash/Ticket</h3>
+                <p>Credential relay attacks</p>
+                <ul>
+                    <li>NTLM hash usage</li>
+                    <li>Kerberos ticket extraction</li>
+                    <li>CrackMapExec techniques</li>
+                    <li>Mimikatz usage</li>
+                </ul>
+            </div>
+
+            <div class="card" onclick="location.href='lateral-movement/pivoting.html'">
+                <div class="card-icon">🔄</div>
+                <h3>Network Pivoting</h3>
+                <p>Multi-network exploitation</p>
+                <ul>
+                    <li>SSH tunneling (local/remote/dynamic)</li>
+                    <li>Chisel usage</li>
+                    <li>Metasploit autoroute</li>
+                    <li>ProxyChains configuration</li>
+                </ul>
+                <span class="badge">Advanced</span>
+            </div>
+
+            <div class="card" onclick="location.href='lateral-movement/ad-attacks.html'">
+                <div class="card-icon">🏢</div>
+                <h3>Active Directory Attacks</h3>
+                <p>Domain compromise techniques</p>
+                <ul>
+                    <li>Kerberoasting</li>
+                    <li>AS-REP Roasting</li>
+                    <li>DCSync attacks</li>
+                    <li>Golden/Silver tickets</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Cheatsheets -->
+        <h2 class="section-title">📄 Quick Reference Cheatsheets</h2>
+        <div class="grid">
+            <div class="card" onclick="location.href='cheatsheets/reverse-shells.html'">
+                <div class="card-icon">🐚</div>
+                <h3>Reverse Shell Cheatsheet</h3>
+                <p>One-liners for every language and scenario</p>
+                <span class="badge">Essential</span>
+            </div>
+
+            <div class="card" onclick="location.href='cheatsheets/payloads.html'">
+                <div class="card-icon">💉</div>
+                <h3>Payload Generation</h3>
+                <p>msfvenom, custom payloads, and obfuscation</p>
+            </div>
+
+            <div class="card" onclick="location.href='cheatsheets/one-liners.html'">
+                <div class="card-icon">⚡</div>
+                <h3>One-Liner Commands</h3>
+                <p>Quick wins and useful bash/PowerShell commands</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>CTF & Pentesting Toolkit 2025</strong></p>
+        <p>Educational resource for ethical hacking and CTF challenges</p>
+        <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">
+            Always practice in authorized environments | Updated November 2025
+        </p>
+    </footer>
+</body>
+</html>
