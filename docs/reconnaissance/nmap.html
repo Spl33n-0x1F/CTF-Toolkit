@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nmap Scanning Guide | CTF Toolkit 2025</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.8;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .header h1 { color: white; font-size: 2.5rem; }
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        .back-link:hover { opacity: 1; }
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        h2 {
+            color: #58a6ff;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #30363d;
+        }
+        h3 { color: #79c0ff; margin: 1.5rem 0 0.5rem 0; }
+        p { margin-bottom: 1rem; }
+        code {
+            background: #161b22;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            color: #79c0ff;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        pre code { background: none; padding: 0; }
+        .info-box {
+            background: #1f6feb20;
+            border-left: 4px solid #1f6feb;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .warning-box {
+            background: #ffc10720;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        .success-box {
+            background: #23863620;
+            border-left: 4px solid #238636;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: #161b22;
+        }
+        th, td {
+            border: 1px solid #30363d;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background: #21262d;
+            color: #58a6ff;
+            font-weight: bold;
+        }
+        ul, ol { margin-left: 2rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; }
+        .badge {
+            display: inline-block;
+            background: #238636;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+        .badge-warning { background: #ffc107; color: #000; }
+        .badge-danger { background: #da3633; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="../index.html" class="back-link">← Back to Home</a>
+        <h1>🌐 Nmap Scanning Methodology</h1>
+        <p style="color: white; opacity: 0.9;">Complete guide from quick scans to advanced NSE scripts</p>
+    </div>
+
+    <div class="container">
+        <div class="info-box">
+            <strong>Why Nmap?</strong> Nmap is the industry standard for network reconnaissance. Mastering Nmap is essential for both CTF challenges and professional penetration testing.
+        </div>
+
+        <h2>🚀 Quick Reference</h2>
+
+        <h3>Essential Scan (Start Here)</h3>
+        <pre><code># Quick scan of top 1000 ports
+nmap -sV -sC -oN nmap-initial.txt TARGET_IP
+
+# Full port scan (all 65535 ports)
+nmap -p- -oN nmap-full.txt TARGET_IP
+
+# Aggressive scan on found ports
+nmap -p PORT1,PORT2,PORT3 -sV -sC -A -oN nmap-aggressive.txt TARGET_IP</code></pre>
+
+        <h3>My Standard Workflow</h3>
+        <pre><code># Step 1: Quick discovery
+nmap -sV -sC TARGET_IP -oN quick.txt
+
+# Step 2: Full port scan in background
+nmap -p- -T4 TARGET_IP -oN fullscan.txt &
+
+# Step 3: UDP scan (top 100 ports)
+sudo nmap -sU --top-ports 100 TARGET_IP -oN udp.txt
+
+# Step 4: Targeted deep scan on interesting ports
+nmap -p 80,443,8080 -sV -sC -A TARGET_IP -oN web-detailed.txt</code></pre>
+
+        <h2>📋 Common Scan Types</h2>
+
+        <table>
+            <tr>
+                <th>Scan Type</th>
+                <th>Command</th>
+                <th>Use Case</th>
+            </tr>
+            <tr>
+                <td><strong>Basic Scan</strong></td>
+                <td><code>nmap TARGET_IP</code></td>
+                <td>Quick check of top 1000 ports</td>
+            </tr>
+            <tr>
+                <td><strong>Version Detection</strong></td>
+                <td><code>nmap -sV TARGET_IP</code></td>
+                <td>Identify service versions</td>
+            </tr>
+            <tr>
+                <td><strong>OS Detection</strong></td>
+                <td><code>nmap -O TARGET_IP</code></td>
+                <td>Detect operating system</td>
+            </tr>
+            <tr>
+                <td><strong>Script Scan</strong></td>
+                <td><code>nmap -sC TARGET_IP</code></td>
+                <td>Run default NSE scripts</td>
+            </tr>
+            <tr>
+                <td><strong>Aggressive Scan</strong></td>
+                <td><code>nmap -A TARGET_IP</code></td>
+                <td>OS detection + version + scripts + traceroute</td>
+            </tr>
+            <tr>
+                <td><strong>All Ports</strong></td>
+                <td><code>nmap -p- TARGET_IP</code></td>
+                <td>Scan all 65535 ports</td>
+            </tr>
+            <tr>
+                <td><strong>UDP Scan</strong></td>
+                <td><code>sudo nmap -sU TARGET_IP</code></td>
+                <td>UDP service discovery</td>
+            </tr>
+            <tr>
+                <td><strong>Fast Scan</strong></td>
+                <td><code>nmap -F TARGET_IP</code></td>
+                <td>Top 100 ports only</td>
+            </tr>
+        </table>
+
+        <h2>🎯 Port Scanning Options</h2>
+
+        <h3>Specific Port Ranges</h3>
+        <pre><code># Single port
+nmap -p 80 TARGET_IP
+
+# Multiple ports
+nmap -p 80,443,8080 TARGET_IP
+
+# Port range
+nmap -p 1-1000 TARGET_IP
+
+# All ports
+nmap -p- TARGET_IP
+
+# Top ports
+nmap --top-ports 20 TARGET_IP</code></pre>
+
+        <h3>Timing Templates <span class="badge-warning">Speed vs Stealth</span></h3>
+        <pre><code># T0 - Paranoid (slowest, IDS evasion)
+nmap -T0 TARGET_IP
+
+# T1 - Sneaky
+nmap -T1 TARGET_IP
+
+# T2 - Polite (less bandwidth)
+nmap -T2 TARGET_IP
+
+# T3 - Normal (default)
+nmap -T3 TARGET_IP
+
+# T4 - Aggressive (faster, recommended for CTFs)
+nmap -T4 TARGET_IP
+
+# T5 - Insane (fastest, may miss ports)
+nmap -T5 TARGET_IP</code></pre>
+
+        <div class="success-box">
+            <strong>CTF Tip:</strong> Use <code>-T4</code> for faster scans in lab environments. Use <code>-T2</code> or <code>-T3</code> for real-world engagements.
+        </div>
+
+        <h2>🔍 NSE Scripts (Nmap Scripting Engine)</h2>
+
+        <h3>Default Scripts</h3>
+        <pre><code># Run default safe scripts
+nmap -sC TARGET_IP
+
+# Equivalent to:
+nmap --script=default TARGET_IP</code></pre>
+
+        <h3>Useful NSE Script Categories</h3>
+        <pre><code># Vulnerability detection
+nmap --script vuln TARGET_IP
+
+# Brute force attacks
+nmap --script brute TARGET_IP
+
+# Service discovery
+nmap --script discovery TARGET_IP
+
+# Exploitation scripts
+nmap --script exploit TARGET_IP</code></pre>
+
+        <h3>Specific NSE Scripts</h3>
+        <pre><code># SMB enumeration
+nmap --script smb-enum-shares,smb-enum-users -p 445 TARGET_IP
+
+# HTTP enumeration
+nmap --script http-enum -p 80,443 TARGET_IP
+
+# FTP anonymous login check
+nmap --script ftp-anon -p 21 TARGET_IP
+
+# SSH algorithms
+nmap --script ssh2-enum-algos -p 22 TARGET_IP
+
+# DNS zone transfer
+nmap --script dns-zone-transfer --script-args dns-zone-transfer.domain=example.com -p 53 TARGET_IP
+
+# MySQL enumeration
+nmap --script mysql-enum -p 3306 TARGET_IP
+
+# RDP security check
+nmap --script rdp-enum-encryption -p 3389 TARGET_IP</code></pre>
+
+        <h2>🛡️ Firewall Evasion</h2>
+
+        <h3>Stealth Scans</h3>
+        <pre><code># SYN scan (stealth, doesn't complete TCP handshake)
+sudo nmap -sS TARGET_IP
+
+# FIN scan
+sudo nmap -sF TARGET_IP
+
+# Xmas scan
+sudo nmap -sX TARGET_IP
+
+# Null scan
+sudo nmap -sN TARGET_IP</code></pre>
+
+        <h3>Fragment Packets</h3>
+        <pre><code># Fragment packets (bypass firewalls)
+nmap -f TARGET_IP
+
+# Set MTU (Maximum Transmission Unit)
+nmap --mtu 24 TARGET_IP</code></pre>
+
+        <h3>Decoy Scans</h3>
+        <pre><code># Use decoy IPs
+nmap -D RND:10 TARGET_IP
+
+# Specify decoy IPs
+nmap -D decoy1,decoy2,ME,decoy3 TARGET_IP</code></pre>
+
+        <h2>📤 Output Formats</h2>
+
+        <pre><code># Normal output (human-readable)
+nmap -oN scan-results.txt TARGET_IP
+
+# XML output (machine-readable)
+nmap -oX scan-results.xml TARGET_IP
+
+# Grepable output (easy parsing)
+nmap -oG scan-results.gnmap TARGET_IP
+
+# All formats at once
+nmap -oA scan-results TARGET_IP
+
+# Append to existing file
+nmap --append-output -oN existing-scan.txt TARGET_IP</code></pre>
+
+        <h2>🌐 Multiple Targets</h2>
+
+        <pre><code># Multiple IPs
+nmap 192.168.1.1 192.168.1.5 192.168.1.10
+
+# IP range
+nmap 192.168.1.1-20
+
+# CIDR notation (entire subnet)
+nmap 192.168.1.0/24
+
+# From file
+nmap -iL targets.txt
+
+# Exclude IPs
+nmap 192.168.1.0/24 --exclude 192.168.1.1,192.168.1.5</code></pre>
+
+        <h2>🔧 Advanced Techniques</h2>
+
+        <h3>Service Version Intensity</h3>
+        <pre><code># Light version detection (faster)
+nmap -sV --version-intensity 0 TARGET_IP
+
+# Aggressive version detection (slower, more accurate)
+nmap -sV --version-intensity 9 TARGET_IP</code></pre>
+
+        <h3>IPv6 Scanning</h3>
+        <pre><code>nmap -6 TARGET_IPv6</code></pre>
+
+        <h3>Packet Trace (Debugging)</h3>
+        <pre><code># See packets sent/received
+nmap --packet-trace TARGET_IP
+
+# Verbose output
+nmap -v TARGET_IP
+
+# Extra verbose
+nmap -vv TARGET_IP</code></pre>
+
+        <h2>💡 Pro Tips</h2>
+
+        <div class="info-box">
+            <h3>My 3-Stage Approach</h3>
+            <ol>
+                <li><strong>Stage 1 - Quick Win:</strong> <code>nmap -sV -sC TARGET_IP</code> (5 minutes)</li>
+                <li><strong>Stage 2 - Full Coverage:</strong> <code>nmap -p- -T4 TARGET_IP</code> (running in background)</li>
+                <li><strong>Stage 3 - Deep Dive:</strong> Target specific ports with NSE scripts based on Stage 1 results</li>
+            </ol>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Common Mistakes to Avoid:</strong>
+            <ul>
+                <li>Not scanning all ports (use <code>-p-</code>)</li>
+                <li>Forgetting UDP services (use <code>-sU</code>)</li>
+                <li>Not saving output (always use <code>-oN</code> or <code>-oA</code>)</li>
+                <li>Using <code>-T5</code> too quickly (can miss ports)</li>
+            </ul>
+        </div>
+
+        <h2>📝 Real-World Examples</h2>
+
+        <h3>Web Server Enumeration</h3>
+        <pre><code># Comprehensive web server scan
+nmap -p 80,443,8080,8443 -sV -sC \
+  --script http-enum,http-headers,http-methods,http-title \
+  TARGET_IP -oN web-scan.txt</code></pre>
+
+        <h3>SMB/Windows Enumeration</h3>
+        <pre><code># Windows SMB deep scan
+nmap -p 139,445 -sV -sC \
+  --script smb-os-discovery,smb-enum-shares,smb-enum-users,smb-protocols \
+  TARGET_IP -oN smb-scan.txt</code></pre>
+
+        <h3>Active Directory Discovery</h3>
+        <pre><code># Domain Controller enumeration
+nmap -p 53,88,135,139,389,445,464,636,3268,3269 -sV -sC \
+  --script ldap-rootdse,dns-nsid \
+  TARGET_IP -oN dc-scan.txt</code></pre>
+
+        <h3>Complete Network Sweep</h3>
+        <pre><code># Scan entire subnet (fast)
+nmap -sn 192.168.1.0/24 -oN host-discovery.txt
+
+# Then scan live hosts
+nmap -iL live-hosts.txt -sV -sC -oA network-scan</code></pre>
+
+        <h2>🔗 Additional Resources</h2>
+
+        <ul>
+            <li><a href="https://nmap.org/book/man.html" target="_blank" style="color: #58a6ff;">Official Nmap Reference Guide</a></li>
+            <li><a href="https://nmap.org/nsedoc/" target="_blank" style="color: #58a6ff;">NSE Script Documentation</a></li>
+            <li>NSE Script Location: <code>/usr/share/nmap/scripts/</code></li>
+            <li>Update NSE Database: <code>sudo nmap --script-updatedb</code></li>
+        </ul>
+
+        <div class="success-box">
+            <strong>🎯 Next Steps:</strong> After Nmap, move to service-specific enumeration based on open ports discovered.
+            <ul>
+                <li>Port 80/443 → <a href="../exploitation/web-attacks.html" style="color: #58a6ff;">Web enumeration</a></li>
+                <li>Port 445 → <a href="../enumeration/smb.html" style="color: #58a6ff;">SMB enumeration</a></li>
+                <li>Port 22 → SSH brute-forcing or key enumeration</li>
+            </ul>
+        </div>
+
+        <a href="../index.html" class="back-link" style="color: #58a6ff; margin-top: 2rem; display: inline-block;">← Back to Home</a>
+    </div>
+</body>
+</html>
